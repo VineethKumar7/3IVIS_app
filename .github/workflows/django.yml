@@ -29,7 +29,7 @@ jobs:
 
       - name: Run migrations
         run: |
-	  cd DjangoD3ChartApp
+          cd DjangoD3ChartApp
           python manage.py migrate
 
       - name: Run tests
