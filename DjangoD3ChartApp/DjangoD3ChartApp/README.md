@@ -1,7 +1,3 @@
-Here’s a structured `README.md` file for your project:
-
----
-
 # Sample Web and REST API Django Project
 
 This is a Django-based web and REST API project that demonstrates the use of a D3.js chart after successful login and JWT-based authentication for secure data retrieval via REST API endpoints. The project focuses on functionality over design, utilizing a Cookiecutter-based folder structure and ensuring all required features are operational.
