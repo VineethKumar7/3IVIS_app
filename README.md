@@ -9,7 +9,7 @@ This is a Django-based web and REST API project that demonstrates the use of a D
 - **Swagger UI**: API documentation and testing interface to interact with endpoints.
 - **JWT Authentication**: Secure access to API endpoints using JWT tokens.
 - **Git workflows**: Making sure to use git to test all the functionality.
-- **GTest-Driven Development (TDD)**: Comprehensive tests to verify functionality and prevent regressions.
+- **Test-Driven Development (TDD)**: Comprehensive tests to verify functionality and prevent regressions.
 
 ## Getting Started
 
@@ -146,6 +146,7 @@ python manage.py test
 ### Next Steps
 
 - **Improving UI**: Enhance the frontend with Bootstrap for a more polished look and better user experience.
+- Django wrapper for NVD3 is not utilized here because of older mac OS (Older than 11) used for development. Some dependency issues in npm. Its tried in this branch https://github.com/VineethKumar7/3IVIS_app/tree/django_nvd3
 
 ### Notes
 
