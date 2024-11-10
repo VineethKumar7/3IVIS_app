@@ -57,6 +57,7 @@ INSTALLED_APPS = [
     "allauth.mfa",
     "allauth.socialaccount",
     "django_nvd3",
+    "rest_framework",
 ]
 
 # MIGRATIONS

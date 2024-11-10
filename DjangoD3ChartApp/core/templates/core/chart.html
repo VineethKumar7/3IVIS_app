@@ -1,24 +1,21 @@
-<!-- core/templates/core/chart.html -->
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <title>D3 Chart</title>
-    <!-- Include D3.js from CDN -->
     <script src="https://d3js.org/d3.v7.min.js"></script>
 </head>
 <body>
-    <h1>Chart Page</h1>
-    <!-- Container for the D3 chart -->
+    <h1>Sample D3 Chart</h1>
     <div id="chart-container"></div>
-    
-    <!-- JavaScript to render the D3 chart -->
+
     <script>
-        // Example D3 chart rendering
-        const data = [10, 20, 30, 40, 50];  
+        // Access the data passed from Django
+        const data = {{ chart_data|safe }};  // 'safe' allows Django to insert the list without escaping
 
         const width = 500;
         const height = 300;
+
         const svg = d3.select("#chart-container")
                       .append("svg")
                       .attr("width", width)

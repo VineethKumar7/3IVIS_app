@@ -12,7 +12,7 @@ from django.contrib.auth import get_user_model
 from django_nvd3.templatetags.nvd3_tags import lineChart
 
 User = get_user_model()
-
+CHART_DATA = [60, 20, 30, 40, 50]
 
 class UserRegistrationView(APIView):
     permission_classes = [AllowAny]
@@ -32,39 +32,12 @@ class DataRetrievalView(APIView):
     permission_classes = [IsAuthenticated]  
 
     def get(self, request, *args, **kwargs):
-        # Example data for a D3 chart 
-        chart_data = [10, 20, 30, 40, 50] 
-        return Response({"chart_data": chart_data}, status=status.HTTP_200_OK)
+        return Response({"chart_data": CHART_DATA}, status=status.HTTP_200_OK)
 
 @login_required
 def chart_view(request):
-    return render(request, "core/chart.html")
-
-@login_required
-def nvd3_chart_view(request):
-    # Sample data for the chart
-    chart_data = {
-        'x': list(range(1, 6)),  # x-axis labels
-        'y': [random.randint(10, 50) for _ in range(5)]  # y-axis data
-    }
-
-    # Chart settings
-    chart_type = "discreteBarChart"  # NVD3 chart type
-    chart_container = "barChart_container"  # Chart container ID
-    chart_data_series = [{
-        'values': [{'x': x, 'y': y} for x, y in zip(chart_data['x'], chart_data['y'])],
-        'key': 'Sample Data'
-    }]
-    
     context = {
-        'chart_type': chart_type,
-        'chart_container': chart_container,
-        'chart_data_series': chart_data_series,
-        'extra': {
-            'x_is_date': False,
-            'x_axis_format': '',
-            'tag_script_js': True,
-            'jquery_on_ready': True,
-        }
+        'chart_data': CHART_DATA
     }
-    return render(request, 'core/chart-nvd3.html', context)
+    return render(request, "core/chart.html", context)
+
