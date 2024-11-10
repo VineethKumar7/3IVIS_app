@@ -1,5 +1,6 @@
 # core/views.py
 from rest_framework import status
+from django.shortcuts import render
 from rest_framework.response import Response
 from rest_framework.views import APIView
 from rest_framework.permissions import AllowAny
@@ -7,6 +8,7 @@ from django.contrib.auth.models import User
 from rest_framework_simplejwt.tokens import RefreshToken
 from .serializers import UserSerializer
 from rest_framework.permissions import IsAuthenticated
+from django.contrib.auth.decorators import login_required
 
 class UserRegistrationView(APIView):
     permission_classes = [AllowAny]
@@ -29,3 +31,7 @@ class DataRetrievalView(APIView):
         # Example data for a D3 chart 
         chart_data = [10, 20, 30, 40, 50] 
         return Response({"chart_data": chart_data}, status=status.HTTP_200_OK)
+
+@login_required
+def chart_view(request):
+    return render(request, "core/chart.html")

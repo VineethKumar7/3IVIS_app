@@ -1,0 +1,38 @@
+<!-- core/templates/core/chart.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>D3 Chart</title>
+    <!-- Include D3.js from CDN -->
+    <script src="https://d3js.org/d3.v7.min.js"></script>
+</head>
+<body>
+    <h1>Chart Page</h1>
+    <!-- Container for the D3 chart -->
+    <div id="chart-container"></div>
+    
+    <!-- JavaScript to render the D3 chart -->
+    <script>
+        // Example D3 chart rendering
+        const data = [10, 20, 30, 40, 50];  
+
+        const width = 500;
+        const height = 300;
+        const svg = d3.select("#chart-container")
+                      .append("svg")
+                      .attr("width", width)
+                      .attr("height", height);
+
+        svg.selectAll("rect")
+           .data(data)
+           .enter()
+           .append("rect")
+           .attr("x", (d, i) => i * 30)
+           .attr("y", d => height - d)
+           .attr("width", 25)
+           .attr("height", d => d)
+           .attr("fill", "steelblue");
+    </script>
+</body>
+</html>
