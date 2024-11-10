@@ -60,7 +60,13 @@ INSTALLED_APPS = [
     "allauth.mfa",
     "allauth.socialaccount",
     "django_nvd3",
-    "django_bower",
+    "djangobower",
+]
+
+STATICFILES_FINDERS = [
+    'django.contrib.staticfiles.finders.FileSystemFinder',
+    'django.contrib.staticfiles.finders.AppDirectoriesFinder',
+    'django_bower.finders.BowerFinder',
 ]
 
 
@@ -68,6 +74,8 @@ INSTALLED_APPS = [
 BOWER_INSTALLED_APPS = (
     'd3#3.5.17',
     'nvd3#1.8.6',
+    'jquery',
+    'underscore',
 )
 
 # MIGRATIONS
