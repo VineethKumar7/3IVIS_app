@@ -8,6 +8,8 @@ This is a Django-based web and REST API project that demonstrates the use of a D
 - **REST API**: Secure endpoints for user registration, token management, and data retrieval.
 - **Swagger UI**: API documentation and testing interface to interact with endpoints.
 - **JWT Authentication**: Secure access to API endpoints using JWT tokens.
+- **Git workflows**: Making sure to use git to test all the functionality.
+- **GTest-Driven Development (TDD)**: Comprehensive tests to verify functionality and prevent regressions.
 
 ## Getting Started
 
@@ -118,6 +120,28 @@ To access protected API endpoints, you need to obtain and use a JWT access token
 3. **Access Protected Endpoints**:
    - With the token in place, you can access endpoints requiring authentication, such as `/data/`.
    - Click **Try it out** on the desired endpoint and execute the request.
+
+### Test-Driven Development (TDD)
+
+This project follows a TDD approach to ensure functionality works as expected and remains unbroken with each update. The tests are organized to cover different parts of the application:
+
+#### Test Files and Their Purposes
+
+- **`test_auth_api.py`**: Tests the REST API authentication endpoints (`/register/`, `/token/`, and `/token/refresh/`), ensuring user registration and JWT token generation functions correctly.
+  
+- **`test_auth.py`**: Tests the web-based authentication (login functionality) to ensure users can access the D3 chart page after successful login.
+
+- **`test_chart_rendering.py`**: Tests the chart rendering functionality on the frontend, checking if the chart page loads and displays the correct data format.
+
+- **`test_data_api.py`**: Tests the `/data/` endpoint, verifying that it returns the correct chart data and enforces authentication as expected.
+
+#### Running the Tests
+
+To run all tests, use the following command:
+
+```bash
+python manage.py test
+```
 
 ### Next Steps
 
