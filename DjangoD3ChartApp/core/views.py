@@ -1,4 +1,5 @@
 # core/views.py
+import random
 from rest_framework import status
 from django.shortcuts import render
 from rest_framework.response import Response
@@ -9,7 +10,8 @@ from .serializers import UserSerializer
 from rest_framework.permissions import IsAuthenticated
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth import get_user_model
-from django_nvd3.templatetags.nvd3_tags import lineChart
+from random import randint
+from nvd3 import discreteBarChart
 
 User = get_user_model()
 
@@ -40,31 +42,17 @@ class DataRetrievalView(APIView):
 def chart_view(request):
     return render(request, "core/chart.html")
 
+
 @login_required
 def nvd3_chart_view(request):
-    # Sample data for the chart
-    chart_data = {
-        'x': list(range(1, 6)),  # x-axis labels
-        'y': [random.randint(10, 50) for _ in range(5)]  # y-axis data
+    xdata = ["Category 1", "Category 2", "Category 3", "Category 4", "Category 5"]
+    ydata = [randint(10, 50) for _ in range(5)]
+    
+    chart = discreteBarChart(name='barChart', height=400, width=600)
+    chart.add_serie(y=ydata, x=xdata)
+
+    context = {
+        'chart': chart,
     }
 
-    # Chart settings
-    chart_type = "discreteBarChart"  # NVD3 chart type
-    chart_container = "barChart_container"  # Chart container ID
-    chart_data_series = [{
-        'values': [{'x': x, 'y': y} for x, y in zip(chart_data['x'], chart_data['y'])],
-        'key': 'Sample Data'
-    }]
-    
-    context = {
-        'chart_type': chart_type,
-        'chart_container': chart_container,
-        'chart_data_series': chart_data_series,
-        'extra': {
-            'x_is_date': False,
-            'x_axis_format': '',
-            'tag_script_js': True,
-            'jquery_on_ready': True,
-        }
-    }
-    return render(request, 'core/chart-nvd3.html', context)
+    return render(request, 'core/chart.html', context)

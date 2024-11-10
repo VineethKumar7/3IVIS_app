@@ -12,9 +12,12 @@ https://docs.djangoproject.com/en/5.1/ref/settings/
 
 from pathlib import Path
 import environ
+import os
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
+# Specify the components directory for bower
+BOWER_COMPONENTS_ROOT = os.path.join(BASE_DIR, 'components')
 
 APPS_DIR = BASE_DIR / "DjangoD3ChartApp"
 env = environ.Env()
@@ -57,7 +60,15 @@ INSTALLED_APPS = [
     "allauth.mfa",
     "allauth.socialaccount",
     "django_nvd3",
+    "django_bower",
 ]
+
+
+# Add required packages for D3 and NVD3
+BOWER_INSTALLED_APPS = (
+    'd3#3.5.17',
+    'nvd3#1.8.6',
+)
 
 # MIGRATIONS
 # ------------------------------------------------------------------------------
@@ -198,7 +209,9 @@ USE_TZ = True
 
 LOGIN_REDIRECT_URL = '/chart/'
 
-LOGIN_URL = "account_login"
+LOGIN_URL = "login/"
+
+LOGOUT_REDIRECT_URL = '/login/'
 
 SITE_ID = 1
 

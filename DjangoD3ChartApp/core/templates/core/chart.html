@@ -1,38 +1,39 @@
-<!-- core/templates/core/chart.html -->
+{% load nvd3_tags %}
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>D3 Chart</title>
-    <!-- Include D3.js from CDN -->
-    <script src="https://d3js.org/d3.v7.min.js"></script>
+    <title>Sample Chart</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/nvd3/1.8.6/nv.d3.min.css" rel="stylesheet">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/3.5.17/d3.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/nvd3/1.8.6/nv.d3.min.js"></script>
+    <style>
+        #{{ chart.chartcontainer }} {
+            width: 600px;
+            height: 400px;
+            display: block;
+            margin: auto;
+        }
+    </style>
 </head>
 <body>
-    <h1>Chart Page</h1>
-    <!-- Container for the D3 chart -->
-    <div id="chart-container"></div>
-    
-    <!-- JavaScript to render the D3 chart -->
-    <script>
-        // Example D3 chart rendering
-        const data = [10, 20, 30, 40, 50];  
+    <form action="{% url 'logout' %}" method="post">
+        {% csrf_token %}
+        <button type="submit">Logout</button>
+    </form>
 
-        const width = 500;
-        const height = 300;
-        const svg = d3.select("#chart-container")
-                      .append("svg")
-                      .attr("width", width)
-                      .attr("height", height);
+    <h2>Sample Bar Chart</h2>
+    <div id="{{ chart.chartcontainer }}"></div>
 
-        svg.selectAll("rect")
-           .data(data)
-           .enter()
-           .append("rect")
-           .attr("x", (d, i) => i * 30)
-           .attr("y", d => height - d)
-           .attr("width", 25)
-           .attr("height", d => d)
-           .attr("fill", "steelblue");
+    <script type="text/javascript">
+        // Confirm that JavaScript is executing
+        console.log("Attempting to load chart...");
+        
+        // Render chart
+        {{ chart.js_include|safe }}
+        {{ chart.js_load|safe }}
+
+        console.log("Chart should now be loaded.");
     </script>
 </body>
 </html>
