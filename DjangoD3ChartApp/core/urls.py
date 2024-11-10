@@ -9,5 +9,5 @@ urlpatterns = [
     path('api/token/refresh/', TokenRefreshView.as_view(), name='token_refresh'),
     path('api/data/', DataRetrievalView.as_view(), name='data-retrieve'),
     path('chart/', chart_view, name='chart-view'),
-    path('login/', LoginView.as_view(redirect_authenticated_user=True), name='login'),
+    path('', LoginView.as_view(redirect_authenticated_user=True), name='login'),
 ]

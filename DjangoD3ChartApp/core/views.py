@@ -10,12 +10,19 @@ from rest_framework.permissions import IsAuthenticated
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth import get_user_model
 from django_nvd3.templatetags.nvd3_tags import lineChart
+from drf_yasg.utils import swagger_auto_schema
+from drf_yasg import openapi
 
 User = get_user_model()
 CHART_DATA = [60, 20, 30, 40, 50]
 
 class UserRegistrationView(APIView):
     permission_classes = [AllowAny]
+
+    @swagger_auto_schema(
+        operation_description="Register a new user",
+        responses={201: "User created successfully", 400: "Validation error"},
+    )
 
     def post(self, request, *args, **kwargs):
         serializer = UserSerializer(data=request.data)
@@ -30,6 +37,11 @@ class UserRegistrationView(APIView):
 
 class DataRetrievalView(APIView):
     permission_classes = [IsAuthenticated]  
+
+    @swagger_auto_schema(
+        operation_description="Retrieve data for D3 chart",
+        responses={200: openapi.Response("Chart data", examples={"chart_data": CHART_DATA})}
+    )
 
     def get(self, request, *args, **kwargs):
         return Response({"chart_data": CHART_DATA}, status=status.HTTP_200_OK)

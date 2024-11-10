@@ -58,6 +58,7 @@ INSTALLED_APPS = [
     "allauth.socialaccount",
     "django_nvd3",
     "rest_framework",
+    "drf_yasg",
 ]
 
 # MIGRATIONS
@@ -199,9 +200,21 @@ USE_TZ = True
 
 LOGIN_REDIRECT_URL = '/chart/'
 
-LOGIN_URL = "account_login"
+LOGIN_URL = "login"
 
 SITE_ID = 1
+
+
+SWAGGER_SETTINGS = {
+    'SECURITY_DEFINITIONS': {
+        'Bearer': {
+            'type': 'apiKey',
+            'name': 'Authorization',
+            'in': 'header',
+            'description': "JWT Authorization header using the Bearer scheme. Example: \"Authorization: Bearer {token}\"",
+        }
+    },
+}
 
 
 
