@@ -2,8 +2,8 @@
 
 from django.utils.translation import gettext_lazy as _
 
-from chartapp.users.forms import UserAdminCreationForm
-from chartapp.users.models import User
+from DjangoD3ChartApp.users.forms import UserAdminCreationForm
+from DjangoD3ChartApp.users.models import User
 
 
 class TestUserAdminCreationForm:

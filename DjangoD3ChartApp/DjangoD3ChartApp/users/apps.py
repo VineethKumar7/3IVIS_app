@@ -5,9 +5,9 @@ from django.utils.translation import gettext_lazy as _
 
 
 class UsersConfig(AppConfig):
-    name = "chartapp.users"
+    name = "DjangoD3ChartApp.users"
     verbose_name = _("Users")
 
     def ready(self):
         with contextlib.suppress(ImportError):
-            import chartapp.users.signals  # noqa: F401
+            import DjangoD3ChartApp.users.signals  # noqa: F401

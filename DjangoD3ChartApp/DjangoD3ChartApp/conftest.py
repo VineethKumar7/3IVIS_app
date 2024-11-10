@@ -1,7 +1,7 @@
 import pytest
 
-from chartapp.users.models import User
-from chartapp.users.tests.factories import UserFactory
+from DjangoD3ChartApp.users.models import User
+from DjangoD3ChartApp.users.tests.factories import UserFactory
 
 
 @pytest.fixture(autouse=True)

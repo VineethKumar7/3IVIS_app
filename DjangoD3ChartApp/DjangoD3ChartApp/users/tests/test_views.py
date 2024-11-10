@@ -12,12 +12,12 @@ from django.test import RequestFactory
 from django.urls import reverse
 from django.utils.translation import gettext_lazy as _
 
-from chartapp.users.forms import UserAdminChangeForm
-from chartapp.users.models import User
-from chartapp.users.tests.factories import UserFactory
-from chartapp.users.views import UserRedirectView
-from chartapp.users.views import UserUpdateView
-from chartapp.users.views import user_detail_view
+from DjangoD3ChartApp.users.forms import UserAdminChangeForm
+from DjangoD3ChartApp.users.models import User
+from DjangoD3ChartApp.users.tests.factories import UserFactory
+from DjangoD3ChartApp.users.views import UserRedirectView
+from DjangoD3ChartApp.users.views import UserUpdateView
+from DjangoD3ChartApp.users.views import user_detail_view
 
 pytestmark = pytest.mark.django_db
 

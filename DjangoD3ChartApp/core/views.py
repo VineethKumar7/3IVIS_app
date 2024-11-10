@@ -4,11 +4,15 @@ from django.shortcuts import render
 from rest_framework.response import Response
 from rest_framework.views import APIView
 from rest_framework.permissions import AllowAny
-from django.contrib.auth.models import User
 from rest_framework_simplejwt.tokens import RefreshToken
 from .serializers import UserSerializer
 from rest_framework.permissions import IsAuthenticated
 from django.contrib.auth.decorators import login_required
+from django.contrib.auth import get_user_model
+from django.utils.decorators import method_decorator
+
+User = get_user_model()
+
 
 class UserRegistrationView(APIView):
     permission_classes = [AllowAny]

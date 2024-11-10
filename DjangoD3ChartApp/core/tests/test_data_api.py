@@ -1,17 +1,18 @@
-# core/tests/test_data_api.py
-
 from django.urls import reverse
 from rest_framework import status
 from rest_framework.test import APITestCase
-from django.contrib.auth.models import User
 from rest_framework_simplejwt.tokens import RefreshToken
+from django.contrib.auth import get_user_model
+
+User = get_user_model()
+
 
 class DataRetrievalAPITests(APITestCase):
 
     def setUp(self):
         # Create a user and get an authentication token
-        self.user = User.objects.create_user(username="testuser", password="testpassword")
-        self.url = reverse("data-retrieve")  # Assume this will be the name of the data retrieval endpoint
+        self.user = User.objects.create_user(email="testuser@example.com", password="testpassword")
+        self.url = reverse("data-retrieve")  
         self.access_token = self.get_access_token()
 
     def get_access_token(self):
@@ -32,4 +33,4 @@ class DataRetrievalAPITests(APITestCase):
         self.assertEqual(response.status_code, status.HTTP_200_OK)
         # Expect specific data structure (e.g., a 'chart_data' field)
         self.assertIn("chart_data", response.data)
-        self.assertIsInstance(response.data["chart_data"], list)  # Assuming it's a list of data points
+        self.assertIsInstance(response.data["chart_data"], list) 

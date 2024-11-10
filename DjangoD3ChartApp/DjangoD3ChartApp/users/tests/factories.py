@@ -5,7 +5,7 @@ from factory import Faker
 from factory import post_generation
 from factory.django import DjangoModelFactory
 
-from chartapp.users.models import User
+from DjangoD3ChartApp.users.models import User
 
 
 class UserFactory(DjangoModelFactory[User]):
