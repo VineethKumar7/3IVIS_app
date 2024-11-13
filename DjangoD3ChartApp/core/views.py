@@ -1,17 +1,17 @@
 # core/views.py
+from django.shortcuts import render, redirect
+from django.contrib.auth import authenticate, login
+from django.contrib.auth.forms import AuthenticationForm
+from django.contrib.auth.decorators import login_required
 from rest_framework import status
-from django.shortcuts import render
 from rest_framework.response import Response
 from rest_framework.views import APIView
-from rest_framework.permissions import AllowAny
+from rest_framework.permissions import AllowAny, IsAuthenticated
 from rest_framework_simplejwt.tokens import RefreshToken
-from .serializers import UserSerializer
-from rest_framework.permissions import IsAuthenticated
-from django.contrib.auth.decorators import login_required
-from django.contrib.auth import get_user_model
-from django_nvd3.templatetags.nvd3_tags import lineChart
 from drf_yasg.utils import swagger_auto_schema
 from drf_yasg import openapi
+from .serializers import UserSerializer
+from django.contrib.auth import get_user_model
 
 User = get_user_model()
 CHART_DATA = [60, 20, 30, 40, 50]
@@ -53,3 +53,17 @@ def chart_view(request):
     }
     return render(request, "core/chart.html", context)
 
+def login_view(request):
+    if request.method == "POST":
+        form = AuthenticationForm(request, data=request.POST)
+        if form.is_valid():
+            username = form.cleaned_data.get("username")
+            password = form.cleaned_data.get("password")
+            user = authenticate(request, username=username, password=password)
+            if user is not None:
+                login(request, user)
+                return redirect("chart-view")  # Redirect to the chart view after successful login
+    else:
+        form = AuthenticationForm()
+    
+    return render(request, "registration/login_bootstrap.html", {"form": form})

@@ -6,6 +6,12 @@
     <script src="https://d3js.org/d3.v7.min.js"></script>
 </head>
 <body>
+
+    <form action="{% url 'logout' %}" method="post">
+        {% csrf_token %}
+        <button type="submit">Logout</button>
+    </form>
+
     <h1>Sample D3 Chart</h1>
     <div id="chart-container"></div>
 

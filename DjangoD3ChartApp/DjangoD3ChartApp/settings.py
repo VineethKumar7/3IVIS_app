@@ -202,6 +202,8 @@ LOGIN_REDIRECT_URL = '/chart/'
 
 LOGIN_URL = "login"
 
+LOGOUT_REDIRECT_URL = 'login'
+
 SITE_ID = 1
 
 
