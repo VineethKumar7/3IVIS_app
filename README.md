@@ -57,17 +57,21 @@ This is a Django-based web and REST API project that demonstrates the use of a D
 
 1. **Web Login**:
    - Open [http://127.0.0.1:8000/](http://127.0.0.1:8000/) in your browser.
+   - Admin 
+      - **Email**: `admin@email.com`
+      - **Password**: `admin`
    - Enter the sample credentials:
      - **Email**: `testuser@email.com`
      - **Password**: `testpassword`
    - After login, you will be redirected to a page displaying a D3.js bar chart.
 
 2. **Customize Chart Data**:
-   - The chart data is defined in `views.py` under the variable `CHART_DATA`:
-     ```python
-     CHART_DATA = [60, 20, 30, 40, 50]
-     ```
-   - Modify this data to see changes reflected in the bar chart. Currently no DB is used just being minamilistic. 
+   - The chart data is currently added using admin dashboard. Used admin credentials to add the data.
+   - Alternative way is to save the data in CSV format with the fields like date,temperature in Celcius and Humidity in the code/data folder. And run this command.
+   ```bash
+   python manage.py load_september_weather_data
+   ```
+   - Modify this data to see changes reflected in the bar chart. Currently sqlLite is being used.
 
 3. **API Testing with Swagger UI**:
    - Visit [http://127.0.0.1:8000/swagger/](http://127.0.0.1:8000/swagger/) to access the Swagger UI for API documentation and testing.
@@ -145,10 +149,9 @@ python manage.py test
 
 ### Next Steps
 
-- **Improving UI**: Enhance the frontend with Bootstrap for a more polished look and better user experience.
+- **Improving UI**: 
 - Django wrapper for NVD3 is not utilized here because of older mac OS (Older than 11) used for development. Some dependency issues in npm. Its tried in this branch https://github.com/VineethKumar7/3IVIS_app/tree/django_nvd3
 
 ### Notes
 
-- This project is focused on functionality, with minimal emphasis on styling.
 - Swagger UI provides a convenient way to test the REST API, but be sure to authorize with the JWT token for protected endpoints.

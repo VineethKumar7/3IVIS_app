@@ -27,13 +27,12 @@
 <section class="py-5 border-bottom">
     <div class="container px-5 my-5 px-5">
         <div class="text-center mb-5">
-            <h2 class="fw-bolder">D3 Chart</h2>
-            <p class="lead mb-0">Dynamic Data Visualization</p>
+            <h2 class="fw-bolder">Weather Report</h2>
+            <p class="lead mb-0">September Data Visualization</p>
         </div>
         <div class="d-flex justify-content-center">
             <div id="chart-container"></div>
         </div>
-        
     </div>
 </section>
 {% endblock %}
@@ -41,26 +40,81 @@
 {% block extra_js %}
 <!-- Include D3.js -->
 <script src="https://d3js.org/d3.v7.min.js"></script>
-<script>
-    // Access the data passed from Django
-    const data = {{ chart_data|safe }}; // 'safe' allows Django to insert the list without escaping
 
-    const width = 500;
-    const height = 300;
+<!-- D3 Chart Script -->
+<script>
+    // Access chart data from Django template context and parse as JSON
+    const weatherData = {{ chart_data|safe }};  // 'safe' allows Django to insert the JSON object directly
+
+    // Set up chart dimensions and margins
+    const margin = { top: 20, right: 30, bottom: 50, left: 60 };
+    const width = 800 - margin.left - margin.right;
+    const height = 400 - margin.top - margin.bottom;
 
     const svg = d3.select("#chart-container")
-                  .append("svg")
-                  .attr("width", width)
-                  .attr("height", height);
+        .append("svg")
+        .attr("width", width + margin.left + margin.right)
+        .attr("height", height + margin.top + margin.bottom)
+        .append("g")
+        .attr("transform", `translate(${margin.left},${margin.top})`);
 
-    svg.selectAll("rect")
-       .data(data)
-       .enter()
-       .append("rect")
-       .attr("x", (d, i) => i * 30)
-       .attr("y", d => height - d)
-       .attr("width", 25)
-       .attr("height", d => d)
-       .attr("fill", "steelblue");
+    // Parse date and set up scales
+    const parseDate = d3.timeParse("%Y-%m-%d");
+    weatherData.forEach(d => d.date = parseDate(d.date));
+
+    const x = d3.scaleTime()
+        .domain(d3.extent(weatherData, d => d.date))
+        .range([0, width]);
+
+    const y = d3.scaleLinear()
+        .domain([0, d3.max(weatherData, d => d.temperature)]).nice()
+        .range([height, 0]);
+
+    // Add X axis
+    svg.append("g")
+        .attr("transform", `translate(0,${height})`)
+        .call(d3.axisBottom(x).ticks(5));
+
+    // Add X axis label
+    svg.append("text")
+        .attr("class", "x-axis-label")
+        .attr("text-anchor", "middle")
+        .attr("x", width / 2)
+        .attr("y", height + margin.bottom - 10)
+        .text("Date");
+
+    // Add Y axis
+    svg.append("g")
+        .call(d3.axisLeft(y));
+
+    // Add Y axis label
+    svg.append("text")
+        .attr("class", "y-axis-label")
+        .attr("text-anchor", "middle")
+        .attr("x", -height / 2)
+        .attr("y", -margin.left + 20)
+        .attr("transform", "rotate(-90)")
+        .text("Temperature (°C)");
+
+    // Add line for temperature
+    svg.append("path")
+        .datum(weatherData)
+        .attr("fill", "none")
+        .attr("stroke", "steelblue")
+        .attr("stroke-width", 2)
+        .attr("d", d3.line()
+            .x(d => x(d.date))
+            .y(d => y(d.temperature))
+        );
+
+    // Add circles at each data point
+    svg.selectAll("circle")
+        .data(weatherData)
+        .enter()
+        .append("circle")
+        .attr("cx", d => x(d.date))
+        .attr("cy", d => y(d.temperature))
+        .attr("r", 3)
+        .attr("fill", "steelblue");
 </script>
 {% endblock %}

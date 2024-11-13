@@ -12,6 +12,9 @@ from drf_yasg.utils import swagger_auto_schema
 from drf_yasg import openapi
 from .serializers import UserSerializer
 from django.contrib.auth import get_user_model
+from .models import WeatherData
+from django.utils.timezone import datetime
+from decimal import Decimal
 
 User = get_user_model()
 CHART_DATA = [60, 20, 30, 40, 50]
@@ -46,12 +49,7 @@ class DataRetrievalView(APIView):
     def get(self, request, *args, **kwargs):
         return Response({"chart_data": CHART_DATA}, status=status.HTTP_200_OK)
 
-@login_required
-def chart_view(request):
-    context = {
-        'chart_data': CHART_DATA
-    }
-    return render(request, "core/chart.html", context)
+
 
 def login_view(request):
     if request.method == "POST":
@@ -67,3 +65,40 @@ def login_view(request):
         form = AuthenticationForm()
     
     return render(request, "registration/login_bootstrap.html", {"form": form})
+
+class WeatherDataRetrievalView(APIView):
+    permission_classes = [IsAuthenticated]
+
+    @swagger_auto_schema(
+        operation_description="Retrieve weather data for D3 chart",
+        responses={200: openapi.Response("Chart data", examples={"chart_data": CHART_DATA})}
+    )
+
+    def get(self, request, *args, **kwargs):
+        # Retrieve September data
+        september_data = WeatherData.objects.filter(date__month=9).order_by("date")
+        chart_data = [{"date": entry.date.strftime("%Y-%m-%d"), "temperature": entry.temperature, "humidity": entry.humidity} for entry in september_data]
+        
+        return Response({"chart_data": chart_data}, status=status.HTTP_200_OK)
+    
+
+@login_required
+def chart_view(request):
+    # Retrieve September data from the WeatherData model
+    september_data = WeatherData.objects.filter(date__month=9).order_by("date")
+    chart_data = [
+        {
+            "date": entry.date.strftime("%Y-%m-%d"),
+            "temperature": float(entry.temperature) if isinstance(entry.temperature, Decimal) else entry.temperature,
+            "humidity": float(entry.humidity) if isinstance(entry.humidity, Decimal) else entry.humidity
+        }
+        for entry in september_data
+    ]
+    
+    print(chart_data)
+
+    context = {
+        "chart_data": chart_data  # Pass the data as JSON-compatible dictionary
+    }
+    
+    return render(request, "core/chart.html", context)
