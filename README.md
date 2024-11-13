@@ -156,6 +156,6 @@ python manage.py test
 
 - Resent UI changes and Chart generated from sqlLite DB (models)
 
-[[demo/1]]
-[[demo/2]]
-[[demo/3]]
+![Login page](demo/1.png)
+![Home page with logout](demo/2.png)
+![logout](demo/3.png)
