@@ -154,4 +154,8 @@ python manage.py test
 
 ### Notes
 
-- Swagger UI provides a convenient way to test the REST API, but be sure to authorize with the JWT token for protected endpoints.
+- Resent UI changes and Chart generated from sqlLite DB (models)
+
+[[demo/1]]
+[[demo/2]]
+[[demo/3]]
