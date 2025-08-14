@@ -95,7 +95,7 @@ def chart_view(request):
         for entry in september_data
     ]
     
-    print(chart_data)
+    # print(chart_data)
 
     context = {
         "chart_data": chart_data  # Pass the data as JSON-compatible dictionary
